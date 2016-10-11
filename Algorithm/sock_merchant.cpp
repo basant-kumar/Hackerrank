@@ -43,3 +43,30 @@ int main(){
     cout<<c<<endl;
     return 0;
 }
+
+//above code complexity is O(nlogn) which is not optimized 
+//this given code complexity is O(n) using  couting frequency of a number
+
+/*
+#include <bits/stdc++.h>
+using namespace std;
+
+
+int main() {
+	int n;
+    cin>>n;
+	int freq[101] = {};
+	for(int i = 0; i < n; i++) {
+        int c;
+        cin >> c;
+        freq[c]++;
+    }
+
+	int res = 0;
+	for(int i = 0; i <= 100; i++){
+         res += freq[i] / 2;
+     }
+	cout << res << endl;
+	return 0;
+}
+*/ 
