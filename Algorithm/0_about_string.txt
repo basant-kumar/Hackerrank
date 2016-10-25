@@ -1,0 +1,12 @@
+#This is all about strings in cpp
+
+1>>To take string input with spaces using getline
+getline(cin,str);
+2>>To erase white spaces in given string
+include<algorithm> and include<string>
+str.erase(remove(s.begin(),s.end(),' '),s.end());
+3>>To change to lower case 
+using cctype header one char by one char
+s=tolower(s[i]);
+using string header
+transform(s.begin(),s.end(),s.begin(),::tolower);
