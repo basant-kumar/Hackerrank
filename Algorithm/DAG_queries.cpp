@@ -1,19 +1,26 @@
 #include <iostream>
 #include <vector>
 #include <list>
-#include <set>
-using namespace std;
+#include <cstring>
+#include <cstdio>
 
-void make(vector< list<int> > &a,vector< set<int> >& s,int i,int j){
-       // cout<<"Inside make"<<endl;
+using namespace std;
+bool g[100001]={false};
+
+
+void make(vector< vector<int> > &a,vector< vector<int> >& s,int i,int j,int *b){
+        int z;
         if(!a[j].empty()){//cout<<"inside if"<<endl;
-            list<int>::iterator it=a[j].begin(); 
+            vector<int>::iterator itt;
             //cout<<"inside if1"<<endl;
-           while(it!=a[j].end()){//cout<<"inside while"<<endl;
-                int z=*it;
-                s[i].insert(z); //cout<<"z "<<z<<endl;
-                make(a,s,i,z);
-                it++;
+          for(itt=a[j].begin();itt!=a[j].end();itt++){//cout<<"inside while"<<endl;
+               z=*itt;
+               if(b[z]==0){
+                    b[z]=1;
+                    s[i].push_back(z);
+                    make(a,s,i,z,b);
+                    
+               }    
             }
         }else{
             return;
@@ -23,69 +30,65 @@ void make(vector< list<int> > &a,vector< set<int> >& s,int i,int j){
 
 int main(){
     int n,m,q,u,v;
-    cin>>n>>m>>q;
-    vector< list<int> > a(n+1);
-    vector< set<int> > s(n+1);
-    int arr[n+1]={0};
+    scanf("%d %d %d",&n,&m,&q);
+    vector< vector<int> > a;
+    vector< vector<int> > s;
+    for(int i=0;i<=n;i++){
+        a.push_back(vector<int>());
+        s.push_back(vector<int>());
+    }
+   
+    int arr[n+1];
+    memset(arr,0,sizeof(arr));
     for(int i=0;i<m;i++){
-        cin>>u>>v;
+        scanf("%d %d",&u,&v);
         a[u].push_back(v);
     }
-/*
-    for(int i=0;i<n;i++){
-         make(a,s,i,i);
-    }  
-    
-    
-    for(int i=0;i<n;i++){
-        cout<<i<<">>";
-        set<int>::iterator it=s[i].begin();
-        while(it!=s[i].end()){
-            cout<<*it<<" ";
-            it++;
-        }cout<<endl;
-    }*/
-    int f,x;
+
+
+    int f,x,b[n+1],z1;
+    vector<int>::iterator it;
     while(q--){
-        cin>>f;
+       scanf("%d",&f);
         if(f==1 ){
-            cin>>u>>x;
-            if(s[u].empty()){
-                make(a,s,u,u);
+            scanf("%d %d",&u,&x);
+            if(g[u]==false){
+                g[u]=true;
+                memset(b,0,sizeof(b));
+                make(a,s,u,u,b);
             }
             arr[u]=x;
             if(!s[u].empty()){
-                set<int>::iterator it=s[u].begin();
-                //arr[u]=x;
-                while(it!=s[u].end()){
-                    int z1=*it;
+               for(it=s[u].begin();it!=s[u].end();it++){
+                    z1=*it;
                     arr[z1]=x;
-                    it++;
+                    
                 }
             }
             
         }else if(f==2){
-            cin>>u>>x;
-            if(s[u].empty()){
-                make(a,s,u,u);
+            scanf("%d %d",&u,&x);
+            if(g[u]==false){
+                g[u]=true;
+                memset(b,0,sizeof(b));
+                make(a,s,u,u,b);
             }   
             if(arr[u]>x)
                     arr[u]=x;
             if(!s[u].empty()){
-                set<int>::iterator it=s[u].begin();
-                
-                while(it!=s[u].end()){
-                    int z1=*it;
+                for(it=s[u].begin();it!=s[u].end();it++){
+                    z1=*it;
                     if(arr[z1]>x){
                         arr[z1]=x;
                     }
-                    it++;
+                    
                 }
             }
             
-        }else if(f==3){
-            cin>>u;
-            cout<<arr[u]<<endl;
+        }else {
+            scanf("%d",&u);
+            printf("%d\n",arr[u]);
+           
         }
     }
 
